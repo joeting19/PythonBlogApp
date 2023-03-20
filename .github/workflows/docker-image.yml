@@ -35,6 +35,7 @@ jobs:
         context: .
         push: true
         tags: ${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG }}   
+        
     - name: Sleep for 30 seconds
       run: sleep 30s
       shell: bash
