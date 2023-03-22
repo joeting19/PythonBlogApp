@@ -1,4 +1,5 @@
 #this shell script for for CI/CD docker container
+
 IMAGE_NAME='joeting91/pythonblog:latest'
 CONTAINER=$(docker ps | grep $IMAGE_NAME | awk '{print $1;}')
 docker kill $CONTAINER
