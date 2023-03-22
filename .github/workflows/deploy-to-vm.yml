@@ -45,11 +45,13 @@ jobs:
     steps:
 
       - name: Execute shell script
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} \
-          IMAGE_NAME='${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG }}  ' \
-          CONTAINER=$(docker ps | grep $IMAGE_NAME | awk '{print $1;}') \
-          docker kill $CONTAINER \
-          docker pull $IMAGE_NAME \
-          docker run -d -p 80:80 $IMAGE_NAME 
-          
+        uses: D3rHase/ssh-command-action@{version}
+        with:
+          host: ${{secrets.SSH_HOST}} # Remote server address / ip - required
+          user: ${{secrets.SSH_USERNAME} # Remote server user - required
+          private_key: ${{secrets.SSH_PRIVATE_KEY} # Private ssh key registered on the remote server - required
+          command: IMAGE_NAME='${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG }}  ' \
+                   CONTAINER=$(docker ps | grep $IMAGE_NAME | awk '{print $1;}') \
+                   docker kill $CONTAINER \
+                   docker pull $IMAGE_NAME \
+                   docker run -d -p 80:80 $IMAGE_NAME              
