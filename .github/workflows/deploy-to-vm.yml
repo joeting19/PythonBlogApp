@@ -41,20 +41,19 @@ jobs:
       shell: bash
       
   run-script:
+    name: script
     runs-on: ubuntu-latest
     steps:
-      - name: ls -a via ssh
-        uses: fifsky/ssh-action@master
-        with:
-          command: |
-               IMAGE_NAME='${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG }}  ' \
-               CONTAINER=$(docker ps | grep $IMAGE_NAME | awk '{print $1;}') \
-               docker kill $CONTAINER \
-               docker pull $IMAGE_NAME \
-               docker run -d -p 80:80 $IMAGE_NAME  
-          host: ${{secrets.SSH_HOST}} 
-          user: ${{secrets.SSH_USERNAME}}
-          key: ${{secrets.SSH_PRIVATE_KEY}} 
-          
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{secrets.SSH_HOST}} 
+        username: ${{secrets.SSH_USERNAME}}
+        key: ${{secrets.SSH_PRIVATE_KEY}} 
+        script: |
+                    bash /home/azureuser/script.sh
+  
+  
+
           
         
