@@ -53,5 +53,10 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Execute shell script
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} '<Path to shell script>'   
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} \
+          IMAGE_NAME='${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG }}  ' \
+          CONTAINER=$(docker ps | grep $IMAGE_NAME | awk '{print $1;}') \
+          docker kill $CONTAINER \
+          docker pull $IMAGE_NAME \
+          docker run -d -p 80:80 $IMAGE_NAME 
           
