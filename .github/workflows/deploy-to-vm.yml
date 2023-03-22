@@ -48,8 +48,8 @@ jobs:
         with:
           known_hosts: |
             github.com ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDm...
-          host: <Public IP Address or FQDN of the Azure VM>
-          username: azureuser
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Execute shell script
         run: |
