@@ -1,0 +1,57 @@
+name: Docker Image CI VM
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+    
+permissions:
+  contents: 'read'
+  packages: 'write'
+  
+env:
+  DOCKER_IMAGE_NAME: joeting91/pythonblog
+  TAG: latest
+  AZURE_WEBAPP_NAME: blogapp2
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Login to DockerHub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Build and push image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: ${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG }}   
+        
+    - name: Sleep for 30 seconds
+      run: sleep 30s
+      shell: bash
+      
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup SSH connection
+        uses: azure/ssh@v0.2.3
+        with:
+          known_hosts: |
+            github.com ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDm...
+          host: <Public IP Address or FQDN of the Azure VM>
+          username: azureuser
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Execute shell script
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} '<Path to shell script>'   
+          
