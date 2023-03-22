@@ -41,9 +41,9 @@ jobs:
       shell: bash
 
     - name: Deploy to Azure VM
-      uses: ssh-actions/ssh@v3
+      uses: appleboy/ssh-action@v0.1.8
       with:
-         ssh-private-key: ${{secrets.SSH_PRIVATE_KEY}}
+         key: ${{secrets.SSH_PRIVATE_KEY}}
          host: ${{secrets.SSH_HOST}} 
          username: ${{secrets.SSH_USERNAME}}
          script: |
