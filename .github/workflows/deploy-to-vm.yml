@@ -48,7 +48,7 @@ jobs:
         uses: D3rHase/ssh-command-action@{version}
         with:
           host: ${{secrets.SSH_HOST}} # Remote server address / ip - required
-          user: ${{secrets.SSH_USERNAME} # Remote server user - required
+          user: ${{secrets.SSH_USERNAME}} # Remote server user - required
           private_key: ${{secrets.SSH_PRIVATE_KEY} # Private ssh key registered on the remote server - required
           command: IMAGE_NAME='${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG }}  ' \
                    CONTAINER=$(docker ps | grep $IMAGE_NAME | awk '{print $1;}') \
