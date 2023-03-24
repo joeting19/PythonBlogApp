@@ -8,7 +8,7 @@ on:
     
 permissions:
   contents: 'read'
-  packages: 'write'
+  packages: 'read'
   
 env:
   DOCKER_IMAGE_NAME: joeting91/pythonblog
