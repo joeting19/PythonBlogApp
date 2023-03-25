@@ -1,8 +1,7 @@
 #create db container and connect
 
-docker run --name postgres -e POSTGRES_PASSWORD=P@ssW0rd!! -d postgres
-docker exec -it 1004ba8d0412 psql -U postgres -d postgres
-
+docker run --name postgres -e POSTGRES_PASSWORD=P@ssW0rd! -d postgres
+docker exec -it 2b2b5950fe05 psql -U postgres -d postgres
 
     CREATE TABLE blog_post (
             id SERIAL PRIMARY KEY, 
@@ -12,4 +11,3 @@ docker exec -it 1004ba8d0412 psql -U postgres -d postgres
             UNIQUE (title)
             );
 
-            

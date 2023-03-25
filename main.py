@@ -14,7 +14,7 @@ ckeditor = CKEditor(app)
 Bootstrap(app)
 
 ##CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:P@ssW0rd!@172.174.194.44/postgres'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -123,4 +123,4 @@ if __name__ == "__main__":
     #app.run(host='0.0.0.0', port=5000, debug=True)
 
 
-    
+
