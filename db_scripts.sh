@@ -2,6 +2,8 @@
 
 docker run --name postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres
 
+docker volume create dbvol
+
 docker exec -it 52a607adb832 psql -U postgres -d postgres
 
 
