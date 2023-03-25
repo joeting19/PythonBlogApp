@@ -2,17 +2,17 @@ name: Docker Image CI Azure Webapp
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "dev" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "dev" ]
     
 permissions:
   contents: 'read'
-  packages: 'write'
+  packages: 'read'
   
 env:
   DOCKER_IMAGE_NAME: joeting91/pythonblog
-  TAG: latest
+  TAG: dev
   AZURE_WEBAPP_NAME: blogapp2
 
 jobs:
