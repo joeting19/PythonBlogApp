@@ -52,6 +52,7 @@ def show_post(post_id):
     requested_post = BlogPost.query.get(post_id)
     return render_template("post.html", post=requested_post)
 
+
 @app.route("/new-post", methods=["GET", "POST"])
 def add_new_post():
     form = CreatePostForm()
@@ -74,6 +75,7 @@ def add_new_post():
 #     form = EditForm()
 #     form.body.data = get_the_article_body_from_somewhere()  # <--
 #     return render_template('edit.html', form=form)
+
 @app.route("/edit-post/<int:post_id>", methods=["GET", "POST"])
 def edit_post(post_id):
     post = BlogPost.query.get(post_id)
