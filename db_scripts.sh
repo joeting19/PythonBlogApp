@@ -24,16 +24,16 @@ docker exec -it 98ba2466d449 psql -U postgres -d postgres
 
 #create snapshot
 
-#think about whetehr to just 
-
-#trigger azure function to create snapshot...!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#trigger azure function to create snapshot...
 
 
 #first kill container
 docker kill $(containder_id)
 
+
 #now run az snapshot... have to login first.
 az snapshot create --resource-group blogapp --name blogsnapshot --source postgres_OsDisk_1_e0f0f2447c7e453c9a2a8079d6086dc8
+
 
 #start up db again
 docker run --name postgres -e POSTGRES_PASSWORD=postgres -v dbvol:/var/lib/postgresql/data -p 5432:5432 -d postgres
@@ -50,7 +50,6 @@ docker exec -it c30e025381da env | grep POSTGRES_URI
 
 #copy to storage using azcopy
 
-
 dbvol
 
 /var/lib/docker/volumes/dbvol
@@ -60,11 +59,9 @@ dbvol
 az storage file copy
 
 #use az file to copy the postgres data...
-azcopy copy '/var/lib/docker/volumes/dbvol' 'https://blogappimages.file.core.windows.net/postgresbackup/?sv=2021-12-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-03-27T02:16:18Z&st=2023-03-26T18:16:18Z&spr=https&sig=GeCuWvJ2hfREnNb6hmdBNFatiGlJQT0cd04BhaJaAN0%3D' --recursive=true
+sudo azcopy copy '/var/lib/docker/volumes/dbvol' 'https://blogappimages.file.core.windows.net/postgresbackup/?sv=2021-12-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-03-27T02:16:18Z&st=2023-03-26T18:16:18Z&spr=https&sig=GeCuWvJ2hfREnNb6hmdBNFatiGlJQT0cd04BhaJaAN0%3D' --recursive=true
 
-
-#uploading to blob doesnt work since it is a folder...
-azcopy cp /var/lib/docker/volumes/dbvol "https://blogappimages.blob.core.windows.net/postgresbackup/?sv=2021-12-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-03-27T02:16:18Z&st=2023-03-26T18:16:18Z&spr=https&sig=GeCuWvJ2hfREnNb6hmdBNFatiGlJQT0cd04BhaJaAN0%3D" --recursive=true
+sudo docker run --name postgres-exporter -e DATA_SOURCE_NAME="postgresql://postgres:postgres@localhost:5432/?sslmode=disable" -p 9187:9187 wrouesnel/postgres_exporter
 
 
 docker run \
