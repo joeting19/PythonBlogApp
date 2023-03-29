@@ -56,6 +56,7 @@ class VisitorLog(db.Model):
     ip_address = db.Column(db.String(20))
     message = db.Column(db.String(200))
 
+
 #function to create log
 def log(message):
     ip_address = request.remote_addr
