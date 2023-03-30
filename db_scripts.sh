@@ -25,11 +25,10 @@ docker exec -it 038ac8cf021e psql -U postgres -d postgres
 
 #create logging table
 CREATE TABLE visitor_log (
-	"id"	INTEGER,
+	"id"	SERIAL PRIMARY KEY,
 	"time"	TIMESTAMP WITHOUT TIME ZONE,
 	"ip_address"	TEXT,
-	"message"	INTEGER,
-	PRIMARY KEY("id"));
+	"message"	TEXT);
 
 
 
