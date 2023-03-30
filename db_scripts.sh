@@ -10,7 +10,7 @@ sudo apt install azure-cli
 
 docker run --name postgres -e POSTGRES_PASSWORD=postgres -v dbvol:/var/lib/postgresql/data -p 5432:5432 -d postgres
 
-docker exec -it 98ba2466d449 psql -U postgres -d postgres
+docker exec -it 038ac8cf021e psql -U postgres -d postgres
 
 
 #if running container table for first time, create this table
@@ -21,6 +21,19 @@ docker exec -it 98ba2466d449 psql -U postgres -d postgres
             img_url VARCHAR (250) NOT NULL, subtitle VARCHAR (250) NOT NULL, 
             UNIQUE (title)
             );
+
+
+#create logging table
+CREATE TABLE visitor_log (
+	"id"	SERIAL PRIMARY KEY,
+	"time"	TIMESTAMP WITHOUT TIME ZONE,
+	"ip_address"	TEXT,
+	"message"	TEXT);
+
+
+
+timestamp [ (p) ] [ without time zone ]
+
 
 #create snapshot
 

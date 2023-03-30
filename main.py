@@ -8,10 +8,30 @@ from flask_ckeditor import CKEditor, CKEditorField
 from datetime import date
 from waitress import serve
 
+
+from flask import request
+import logging
+from datetime import datetime
+from sqlalchemy import Column, Integer, String, DateTime
+
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 ckeditor = CKEditor(app)
 Bootstrap(app)
+
+
+#logging
+logger = logging.getLogger('website_logger')
+logger.setLevel(logging.INFO)
+handler = logging.FileHandler('website.log')
+formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+
+
+
+
 
 ##CONNECT TO DB
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@20.84.69.25:5432/postgres'
@@ -29,6 +49,22 @@ class BlogPost(db.Model):
     author = db.Column(db.String(250), nullable=False)
     img_url = db.Column(db.String(250), nullable=False)
 
+#config blog table
+class VisitorLog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    time = db.Column(DateTime, default=datetime.now)
+    ip_address = db.Column(db.String(20))
+    message = db.Column(db.String(200))
+
+
+#function to create log
+def log(message):
+    ip_address = request.remote_addr
+    log_entry = VisitorLog(ip_address=ip_address, message=message)
+    db.session.add(log_entry)
+    db.session.commit()
+
+
 ##WTForm
 class CreatePostForm(FlaskForm):
     title = StringField("Blog Post Title", validators=[DataRequired()])
@@ -44,6 +80,7 @@ class CreatePostForm(FlaskForm):
 @app.route('/')
 def get_all_posts():
     posts = BlogPost.query.all()
+    log('Homepage visited')
     return render_template("index.html", all_posts=posts)
 
 
@@ -68,6 +105,7 @@ def add_new_post():
         )
         db.session.add(new_post)
         db.session.commit()
+        log('Post Added')
         return redirect(url_for("get_all_posts"))
     return render_template("make-post.html", form=form)
 
@@ -76,7 +114,6 @@ def add_new_post():
 #     form = EditForm()
 #     form.body.data = get_the_article_body_from_somewhere()  # <--
 #     return render_template('edit.html', form=form)
-
 @app.route("/edit-post/<int:post_id>", methods=["GET", "POST"])
 def edit_post(post_id):
     post = BlogPost.query.get(post_id)
@@ -93,6 +130,7 @@ def edit_post(post_id):
         post.author = edit_form.author.data
         post.body = edit_form.body.data
         db.session.commit()
+        log('Post edited')
         return redirect(url_for("show_post", post_id=post.id))
     return render_template("make-post.html", form=edit_form, is_edit=True)
 
@@ -105,6 +143,7 @@ def delete_post(post_id):
     post_to_delete = BlogPost.query.get(post_id)
     db.session.delete(post_to_delete)
     db.session.commit()
+    log('Post deleted')
     return redirect(url_for('get_all_posts'))
 
 @app.route("/about")
