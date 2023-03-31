@@ -14,7 +14,7 @@ docker exec -it 038ac8cf021e psql -U postgres -d postgres
 
 
 #if running container table for first time, create this table
-    CREATE TABLE blog_post (
+    CREATE TABLE blog_post (\dt
             id SERIAL PRIMARY KEY, 
             title VARCHAR (250) NOT NULL, date VARCHAR (250) NOT NULL, 
             body TEXT NOT NULL, author VARCHAR (250) NOT NULL, 
