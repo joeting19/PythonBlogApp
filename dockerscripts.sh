@@ -8,7 +8,6 @@ sudo chmod 666 /var/run/docker.sock
 
 
 docker pull joeting91/pythonblog:dev
-sudo chmod 666 /var/run/docker.sock
 
 
 #for dev

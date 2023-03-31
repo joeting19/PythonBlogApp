@@ -31,6 +31,15 @@ CREATE TABLE visitor_log (
 	"message"	TEXT);
 
 
+    CREATE TABLE spirit_post (
+            id SERIAL PRIMARY KEY, 
+            title VARCHAR (250) NOT NULL, date VARCHAR (250) NOT NULL, 
+            body TEXT NOT NULL, author VARCHAR (250) NOT NULL, 
+            img_url VARCHAR (250) NOT NULL, subtitle VARCHAR (250) NOT NULL, 
+            UNIQUE (title)
+            );
+
+
 
 timestamp [ (p) ] [ without time zone ]
 
