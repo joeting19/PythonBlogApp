@@ -93,6 +93,7 @@ def get_all_posts():
 @app.route("/post/<int:post_id>")
 def show_post(post_id):
     requested_post = BlogPost.query.get(post_id)
+    log(requested_post.title + " post visited")
     return render_template("post.html", post=requested_post)
 
 
@@ -130,7 +131,7 @@ def edit_post(post_id):
         post.author = edit_form.author.data
         post.body = edit_form.body.data
         db.session.commit()
-        log('Post edited')
+        log(post.title +' Post edited')
         return redirect(url_for("show_post", post_id=post.id))
     return render_template("make-post.html", form=edit_form, is_edit=True)
 
@@ -145,6 +146,7 @@ def delete_post(post_id):
 
 @app.route("/about")
 def about():
+    log('About page visited')
     return render_template("about.html")
 
 
@@ -181,6 +183,7 @@ def add_new_post_spirit():
 @app.route("/spirit/post/<int:post_id>")
 def show_post_spirit(post_id):
     requested_post = SpiritPost.query.get(post_id)
+    log(requested_post.title + " post visited")
     return render_template("post_spirit.html", post=requested_post)
 
 
@@ -200,7 +203,7 @@ def edit_post_spirit(post_id):
         post.author = edit_form.author.data
         post.body = edit_form.body.data
         db.session.commit()
-        log('Spirituality Post edited')
+        log(post.title +' Post edited')
         return redirect(url_for("show_post_spirit", post_id=post.id))
     return render_template("make-post.html", form=edit_form, is_edit=True)
 
@@ -219,6 +222,7 @@ def contact():
 
 @app.route("/resume")
 def resume():
+    log('resume visited')
     return render_template("srt-resume.html")
 
 if __name__ == "__main__":
