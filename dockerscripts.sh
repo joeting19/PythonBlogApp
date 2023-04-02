@@ -1,8 +1,8 @@
  
  
- sudo systemctl start docker
+sudo systemctl start docker
 
- sudo systemctl start docker
+sudo systemctl start docker
 sudo chmod 666 /var/run/docker.sock
 
 
@@ -20,3 +20,4 @@ CONTAINER=$(docker ps | grep $IMAGE_NAME | awk '{print $1;}')
 docker kill $CONTAINER 
 docker pull $IMAGE_NAME
 docker run -d -p 5000:5000 $IMAGE_NAME
+
