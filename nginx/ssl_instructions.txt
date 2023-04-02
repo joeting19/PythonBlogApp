@@ -1,0 +1,10 @@
+
+
+#ssl certificates instructions... these are for when nginx is installed directly on the server and not containerized.
+
+https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/
+
+sudo certbot --nginx -d maitriwind.com -d www.maitriwind.com
+
+
+

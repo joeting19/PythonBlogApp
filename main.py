@@ -7,7 +7,6 @@ from wtforms.validators import DataRequired, URL
 from flask_ckeditor import CKEditor, CKEditorField
 from datetime import date
 from waitress import serve
-
 from flask import request
 import logging
 from datetime import datetime
@@ -64,7 +63,7 @@ class VisitorLog(db.Model):
 
 #function to create log
 def log(message):
-    ip_address = request.remote_addr
+    ip_address = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
     log_entry = VisitorLog(ip_address=ip_address, message=message)
     db.session.add(log_entry)
     db.session.commit()
