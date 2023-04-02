@@ -63,10 +63,11 @@ class VisitorLog(db.Model):
 
 #function to create log
 def log(message):
-    if not request.headers.getlist("X-Forwarded-For"):
+    if not request.headers.get("X-Real-IP"):
         ip = request.remote_addr
     else:
-        ip = request.headers.getlist("X-Forwarded-For")[0]
+        ip = request.headers.get("X-Real-IP")
+
     ip_address = ip
     log_entry = VisitorLog(ip_address=ip_address, message=message)
     db.session.add(log_entry)

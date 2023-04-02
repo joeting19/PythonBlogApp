@@ -17,8 +17,18 @@ sudo docker exec nginx-base nginx -s reload
 
 
 
+#scripts for running on VM and not Container.
 
+#check config file
+sudo nginx -t
 
+#graceful reload
+sudo systemctl reload nginx
+
+#full restart
+sudo systemctl restart nginx
+
+sudo systemctl status nginx
 
 
 
