@@ -63,7 +63,12 @@ class VisitorLog(db.Model):
 
 #function to create log
 def log(message):
-    ip_address = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
+    if 'X-Real-IP' in request.headers:
+        remote_addr = request.headers.getlist("X-Real-IP")[0].rpartition(' ')[-1]
+    else:
+        remote_addr = request.remote_addr or 'untrackable'
+
+    ip_address = remote_addr
     log_entry = VisitorLog(ip_address=ip_address, message=message)
     db.session.add(log_entry)
     db.session.commit()
