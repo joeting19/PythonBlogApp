@@ -225,8 +225,8 @@ def resume():
     return render_template("srt-resume.html")
 
 if __name__ == "__main__":
-    serve(app, listen='*:5000')
-    #app.run(host='0.0.0.0', port=5000, debug=True)
+    #serve(app, listen='*:5000')
+    app.run(host='0.0.0.0', port=5000)
 
 
 
