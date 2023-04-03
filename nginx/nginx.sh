@@ -19,6 +19,12 @@ sudo docker exec nginx-base nginx -s reload
 
 #scripts for running on VM and not Container.
 
+#check presence of module
+nginx -V 2>&1 | grep -o with-http_realip_module
+
+nginx -V 2>&1 | grep -o http_healthcheck_module
+
+
 #check config file
 sudo nginx -t
 
@@ -30,6 +36,8 @@ sudo systemctl restart nginx
 
 sudo systemctl status nginx
 
+tail -f /var/log/nginx/access.log
+tail -f /var/log/nginx/error.log
 
 
 
