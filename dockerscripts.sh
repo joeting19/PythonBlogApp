@@ -1,7 +1,4 @@
  
- 
-sudo systemctl start docker
-
 sudo systemctl start docker
 sudo chmod 666 /var/run/docker.sock
 
@@ -21,3 +18,12 @@ docker kill $CONTAINER
 docker pull $IMAGE_NAME
 docker run -d -p 5000:5000 $IMAGE_NAME
 
+
+#for prod
+
+docker pull joeting91/pythonblog:latest
+
+docker run -d -p 5000:5000 --name pythonblog joeting91/pythonblog:latest
+
+
+docker run -d -p 5001:5000 joeting91/pythonblog:latest
