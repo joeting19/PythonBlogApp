@@ -45,22 +45,25 @@ jobs:
          script: |
             IMAGE_NAME='${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG }}' 
             CONTAINER=$(docker ps | grep $IMAGE_NAME | awk '{print $1;}') 
-            docker kill $CONTAINER 
+            docker kill pyblog0 
+            docker kill pyblog1 
+            docker kill pyblog2 
             docker pull $IMAGE_NAME
-            docker run -d -p 5000:5000 $IMAGE_NAME
-
-    - name: Deploy to Second Azure VM
-      uses: appleboy/ssh-action@v0.1.8
-      with:
-         key: ${{secrets.SSH_PRIVATE_KEY}}
-         host: ${{secrets.SSH_HOST2}} 
-         username: ${{secrets.SSH_USERNAME}}
-         script: |
-            IMAGE_NAME='${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG }}' 
-            CONTAINER=$(docker ps | grep $IMAGE_NAME | awk '{print $1;}') 
-            docker kill $CONTAINER 
-            docker pull $IMAGE_NAME
-            docker run -d -p 5000:5000 $IMAGE_NAME
+            docker run -d -p 5000:5000 --name pyblog0 $IMAGE_NAME
+            docker run -d -p 5001:5000 --name pyblog1 $IMAGE_NAME
+            docker run -d -p 5002:5000 --name pyblog2 $IMAGE_NAME
+    # - name: Deploy to Second Azure VM
+    #   uses: appleboy/ssh-action@v0.1.8
+    #   with:
+    #      key: ${{secrets.SSH_PRIVATE_KEY}}
+    #      host: ${{secrets.SSH_HOST2}} 
+    #      username: ${{secrets.SSH_USERNAME}}
+    #      script: |
+    #         IMAGE_NAME='${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG }}' 
+    #         CONTAINER=$(docker ps | grep $IMAGE_NAME | awk '{print $1;}') 
+    #         docker kill $CONTAINER 
+    #         docker pull $IMAGE_NAME
+    #         docker run -d -p 5000:5000 $IMAGE_NAME
 
   
   
