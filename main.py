@@ -89,7 +89,6 @@ class CreatePostForm(FlaskForm):
 @app.route('/')
 def get_all_posts():
     posts = BlogPost.query.all()
-    log('Homepage visited')
     return render_template("index.html", all_posts=posts)
 
 
@@ -97,7 +96,6 @@ def get_all_posts():
 @app.route("/post/<int:post_id>")
 def show_post(post_id):
     requested_post = BlogPost.query.get(post_id)
-    log(requested_post.title + " post visited")
     return render_template("post.html", post=requested_post)
 
 
@@ -115,7 +113,6 @@ def add_new_post():
         )
         db.session.add(new_post)
         db.session.commit()
-        log('Post Added')
         return redirect(url_for("get_all_posts"))
     return render_template("make-post.html", form=form)
 
@@ -135,7 +132,6 @@ def edit_post(post_id):
         post.author = edit_form.author.data
         post.body = edit_form.body.data
         db.session.commit()
-        log(post.title +' Post edited')
         return redirect(url_for("show_post", post_id=post.id))
     return render_template("make-post.html", form=edit_form, is_edit=True)
 
@@ -144,12 +140,10 @@ def delete_post(post_id):
     post_to_delete = BlogPost.query.get(post_id)
     db.session.delete(post_to_delete)
     db.session.commit()
-    log(post_to_delete.title + ' Post deleted')
     return redirect(url_for('get_all_posts'))
 
 @app.route("/about")
 def about():
-    log('About page visited')
     return render_template("about.html")
 
 #this section is for my spirituality blogs
