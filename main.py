@@ -215,7 +215,6 @@ def contact():
 
 @app.route("/resume")
 def resume():
-    log('resume visited')
     return render_template("srt-resume.html")
 
 if __name__ == "__main__":
