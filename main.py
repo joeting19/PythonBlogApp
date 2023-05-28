@@ -27,8 +27,8 @@ logger.addHandler(handler)
 
 
 ##CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@20.84.69.25:5432/postgres'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@20.84.69.25:5432/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -218,7 +218,7 @@ def resume():
     return render_template("srt-resume.html")
 
 if __name__ == "__main__":
-    serve(app, listen='*:5000')
+    serve(app, listen='*:80')
     #app.run(host='0.0.0.0', port=5000)
 
 
